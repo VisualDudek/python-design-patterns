@@ -34,3 +34,16 @@ Inject these functions instead of calling them from class -> turn the `run` meth
 - The `run()` method now calls the injected `loader_fn()` instead of hardcoded `load_data_from_csv()`
 - In `main()`, the loader function is now passed as an argument: `pipeline.run(load_data_from_csv)`
 - This allows different data loading strategies to be injected at runtime without modifying the class
+
+### Step 3
+Previous changes were made using functions, but we can also use a class-based approach and inject objects instead of functions.
+
+#### Changes from a003_step_02.py to a004_step_03.py
+- Created class-based implementations: `InMemoryLoader`, `JSONExporter`, and `CleanMissingFields`
+- Added `__init__()` method to `DataPipeline` that accepts loader, transformer, and exporter objects as parameters
+- The `run()` method no longer takes parameters; it uses the injected objects stored in instance variables
+- Changed `run()` to call methods on injected objects: `self.loader.load()`, `self.transformer.transform()`, `self.exporter.export()`
+- In `main()`, objects are created first and then injected into `DataPipeline` via constructor
+- This class-based approach provides better encapsulation and makes it easier to create different implementations with internal state
+
+**Note**: The `DataPipeline` constructor currently depends on specific concrete types (`InMemoryLoader`, `JSONExporter`, `CleanMissingFields`), but this can be addressed using protocols to depend on interfaces instead.
