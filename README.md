@@ -47,3 +47,18 @@ Previous changes were made using functions, but we can also use a class-based ap
 - This class-based approach provides better encapsulation and makes it easier to create different implementations with internal state
 
 **Note**: The `DataPipeline` constructor currently depends on specific concrete types (`InMemoryLoader`, `JSONExporter`, `CleanMissingFields`), but this can be addressed using protocols to depend on interfaces instead.
+
+### Step 4
+Add abstraction using Protocols to eliminate the dependency on concrete types in the `DataPipeline` constructor.
+
+#### Changes from a004_step_03.py to a005_step_04.py
+- Added `Protocol` import from `typing` module
+- Created three Protocol classes: `DataLoader`, `Transformer`, and `Exporter`
+- Each Protocol defines the required method signature that implementations must provide:
+  - `DataLoader` requires a `load()` method returning `Data`
+  - `Transformer` requires a `transform(data: Data)` method returning `Data`
+  - `Exporter` requires an `export(data: Data)` method returning `None`
+- Changed `DataPipeline.__init__()` to accept protocol types instead of concrete types
+- The concrete classes (`InMemoryLoader`, `JSONExporter`, `CleanMissingFields`) remain unchanged
+- Now any class that implements the protocol methods can be injected, providing true dependency inversion
+- This follows the Dependency Inversion Principle: depend on abstractions, not concretions
