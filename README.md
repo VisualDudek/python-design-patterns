@@ -23,3 +23,14 @@ Next, decouple data transformation into fn.
 - Extracted inline data transformation logic into a standalone `clean_data()` function
 - The `DataPipeline.run()` method now calls these external functions instead of using internal methods
 - Logic is now decoupled from the class, making it easier to reuse and test independently
+
+
+### Step 2
+Inject these functions instead of calling them from class -> turn the `run` method into a higher order function/method.
+
+#### Changes from a002_step_01.py to a003_step_02.py
+- Added `Callable` import from `typing` module
+- Modified `run()` method to accept a `loader_fn` parameter of type `Callable[[], Data]`
+- The `run()` method now calls the injected `loader_fn()` instead of hardcoded `load_data_from_csv()`
+- In `main()`, the loader function is now passed as an argument: `pipeline.run(load_data_from_csv)`
+- This allows different data loading strategies to be injected at runtime without modifying the class
