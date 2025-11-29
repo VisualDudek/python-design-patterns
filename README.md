@@ -4,6 +4,17 @@ Collection of software design patterns implemented in Python.
 ## Dependency Injection
 Instead of creating all dependencies inside a class you pass them in from th outside.
 
+### Exercise: Refactor Using Dependency Injection
+Refactor [a001_start_here.py](dependency_injection/a001_start_here.py) into [a005_step_04.py](dependency_injection/a005_step_04.py) by following these high-level steps:
+
+1. **Extract methods to standalone functions**: Move class methods outside the class to decouple logic from the class structure
+2. **Inject functions as parameters**: Modify methods to accept functions as parameters instead of calling them directly
+3. **Convert to class-based approach**: Create dedicated classes for each responsibility (loader, transformer, exporter)
+4. **Introduce protocols for abstraction**: Define Protocol interfaces that concrete classes must implement
+5. **Inject dependencies via constructor**: Pass implementations through the constructor, depending on protocols rather than concrete types
+
+By the end, you'll have flexible, testable code that follows the Dependency Inversion Principle.
+
 ### Disadvantages of the Initial Implementation
 - **Hardcoded functionality**: Processing logic is tightly coupled to specific implementations
 - **Hardcoded order of pipeline steps**: The sequence of operations cannot be easily modified or rearranged
