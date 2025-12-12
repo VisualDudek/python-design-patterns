@@ -4,6 +4,10 @@ Collection of software design patterns implemented in Python.
 ## Dependency Injection
 Instead of creating all dependencies inside a class you pass them in from th outside.
 
+### Sources
+- [Dependency Injector](https://python-dependency-injector.ets-labs.org/)
+- [inject](https://pypi.org/project/inject/)
+
 ### Exercise: Refactor Using Dependency Injection
 Refactor [a001_start_here.py](dependency_injection/a001_start_here.py) into [a005_step_04.py](dependency_injection/a005_step_04.py) by following these high-level steps:
 
