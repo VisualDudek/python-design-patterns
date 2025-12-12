@@ -65,6 +65,26 @@ class Container:
         self._providers: dict[str, tuple[Callable[[], Any]], bool] = {}
         self._singletons: dict[str, Any] = {}
 
+    def register(self, name: str, provider: Callable[[], Any], singleton: bool=False) -> None:
+        self._providers[name] = (provider, singleton)
+
+
+    def resolve(self, name: str) -> Any:
+        if name in self._providers:
+            return self._get_instance(name)
+        
+        if name not in self._singletons:
+            raise ValueError(f"Dependency '{name}' not registered.")
+        
+        provider, singleton = self._providers[name]
+        isinstance = provider()
+
+        if singleton:
+            self._singletons[name] = isinstance
+
+        return isinstance
+
+
 def main() -> None:
     # Create obj. to be injected into DataPipeline
     loader = InMemoryLoader()
