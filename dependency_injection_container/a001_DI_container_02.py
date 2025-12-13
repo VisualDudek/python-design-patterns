@@ -86,11 +86,21 @@ class Container:
 
 
 def main() -> None:
-    # Create obj. to be injected into DataPipeline
-    loader = InMemoryLoader()
-    transformer = CleanMissingFields()
-    exporter = JSONExporter(filename="output.json")
-    pipeline = DataPipeline(loader=loader, transformer=transformer, exporter=exporter)
+    container = Container()
+    container.register("loader", lambda: InMemoryLoader(), singleton=True)
+    container.register("transformer", lambda: CleanMissingFields())
+    container.register("exporter", lambda: JSONExporter(filename="output.json"))
+
+    container.register(
+        "pipeline",
+        lambda: DataPipeline(
+            loader=container.resolve("loader"),
+            transformer=container.resolve("transformer"),
+            exporter=container.resolve("exporter"),
+        ),
+    )   
+
+    pipeline = container.resolve("pipeline")
     pipeline.run()
 
     print("Pipeline completed. Output written to output.json")
